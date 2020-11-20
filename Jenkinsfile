@@ -7,8 +7,8 @@
 //      cloud-nov-ist-cluster 
 //      us-central1-c
 //      the following values can be found in the yaml:
-//      demo-api
-//      demo-api (in the template/spec section of the deployment)
+//      demo-ui
+//      demo-ui (in the template/spec section of the deployment)
 
 pipeline {
     agent any 
@@ -58,7 +58,7 @@ pipeline {
                 sh 'gcloud container clusters get-credentials cloud-nov-ist-cluster --zone us-central1-c --project roidtcnov302'
                 echo 'Update the image'
                 echo "gcr.io/roidtcnov302/external:2.${env.BUILD_ID}"
-                sh "kubectl set image deployment/demo-api demo-api=gcr.io/roidtcnov302/external:v2.${env.BUILD_ID} --record"
+                sh "kubectl set image deployment/demo-ui demo-ui=gcr.io/roidtcnov302/external:v2.${env.BUILD_ID} --record"
             }
         }        
                
