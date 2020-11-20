@@ -16,7 +16,7 @@ pipeline {
         stage('Stage 1') {
             steps {
                 echo 'Retrieving source from github' 
-                git branch: 'master',
+                git branch: 'main',
                     url: 'https://github.com/rhjain710/events-app-external.git'
                 echo 'Did we get the source?' 
                 sh 'ls -a'
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 echo "build id = ${env.BUILD_ID}"
                 echo 'Tests passed on to build Docker container'
-                sh "gcloud builds submit -t gcr.io/roidtcnov302/internal:v2.${env.BUILD_ID} ."
+                sh "gcloud builds submit -t gcr.io/roidtcnov302/external:v2.${env.BUILD_ID} ."
             }
         }        
          stage('Stage 5') {
@@ -57,8 +57,8 @@ pipeline {
                 echo 'Get cluster credentials'
                 sh 'gcloud container clusters get-credentials cloud-nov-ist-cluster --zone us-central1-c --project roidtcnov302'
                 echo 'Update the image'
-                echo "gcr.io/roidtcnov302/internal:2.${env.BUILD_ID}"
-                sh "kubectl set image deployment/demo-api demo-api=gcr.io/roidtcnov302/internal:v2.${env.BUILD_ID} --record"
+                echo "gcr.io/roidtcnov302/external:2.${env.BUILD_ID}"
+                sh "kubectl set image deployment/demo-api demo-api=gcr.io/roidtcnov302/external:v2.${env.BUILD_ID} --record"
             }
         }        
                
